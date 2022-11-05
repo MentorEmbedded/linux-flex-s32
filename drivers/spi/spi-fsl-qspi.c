@@ -741,6 +741,10 @@ static int fsl_qspi_probe(struct platform_device *pdev)
 
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
 					"QuadSPI-memory");
+	if (!res) {
+		ret = -EINVAL;
+		goto err_put_ctrl;
+	}
 	q->memmap_phy = res->start;
 	/* Since there are 4 cs, map size required is 4 times ahb_buf_size */
 	if (!is_s32gen1_qspi(q)) {
